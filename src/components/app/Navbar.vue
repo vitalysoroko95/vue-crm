@@ -5,7 +5,7 @@
         <a href="#" @click.prevent="$emit('toggle')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ localeDate }}</span>
+        <span class="black-text">{{ date }}</span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -53,14 +53,16 @@ export default {
     },
   },
   mounted() {
-    thos.interval = setInterval(() => {
-      this.date = new Date();
+    this.interval = setInterval(() => {
+      this.date =
+        new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
     }, 1000);
     this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
       constrainWith: false,
     });
   },
-  computed: {
+
+  /*  computed: {
     localeDate() {
       var options = {
         year: "numeric",
@@ -71,10 +73,9 @@ export default {
       };
       return new Date(this.date).toLocaleDateString("en-US", options);
     },
-  },
+  }, */
   beforeUnmount() {
     clearInterval(this.interval);
-
     if (this.dropdown && this.dropdown.destroy) {
       this.dropdown.destroy();
     }
