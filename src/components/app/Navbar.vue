@@ -61,19 +61,6 @@ export default {
       constrainWith: false,
     });
   },
-
-  /*  computed: {
-    localeDate() {
-      var options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      };
-      return new Date(this.date).toLocaleDateString("en-US", options);
-    },
-  }, */
   beforeUnmount() {
     clearInterval(this.interval);
     if (this.dropdown && this.dropdown.destroy) {
