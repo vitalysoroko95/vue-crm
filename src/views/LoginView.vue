@@ -3,14 +3,18 @@
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
-        <input id="email" type="text" class="validate" />
+        <input id="email" type="text" v-model.trim="email" />
+        <small class="helper-text invalid" v-if="v$.email.$error">{{
+          v$.email.$errors[0].$message
+        }}</small>
         <label for="email">Email</label>
-        <small class="helper-text invalid">Email</small>
       </div>
       <div class="input-field">
-        <input id="password" type="password" class="validate" />
+        <input id="password" type="password" v-model.trim="password" />
         <label for="password">Пароль</label>
-        <small class="helper-text invalid">Password</small>
+        <small class="helper-text invalid" v-if="v$.password.$error">{{
+          v$.password.$errors[0].$message
+        }}</small>
       </div>
     </div>
     <div class="card-action">
@@ -30,11 +34,27 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
+import { required, email, minLength } from '@vuelidate/validators';
+
 export default {
-  name: "login",
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    email: '',
+    password: '',
+  }),
+  validations: () => ({
+    email: { email, required },
+    password: { required, minLength: minLength(6) },
+  }),
   methods: {
     submitHandler() {
-      this.$router.push("/");
+      this.v$.$validate();
+      if (!this.v$.$error) {
+        this.$router.push('/');
+      }
     },
   },
 };
