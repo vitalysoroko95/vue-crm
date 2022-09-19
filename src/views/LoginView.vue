@@ -2,6 +2,7 @@
   <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
+
       <div class="input-field">
         <input id="email" type="text" v-model.trim="email" />
         <small class="helper-text invalid" v-if="v$.email.$error">{{
@@ -36,6 +37,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, email, minLength } from '@vuelidate/validators';
+import messages from '../utils/messages';
 
 export default {
   setup: () => ({
@@ -49,10 +51,20 @@ export default {
     email: { email, required },
     password: { required, minLength: minLength(6) },
   }),
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
+  },
   methods: {
     submitHandler() {
       this.v$.$validate();
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
       if (!this.v$.$error) {
+        console.log(formData);
         this.$router.push('/');
       }
     },
