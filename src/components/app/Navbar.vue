@@ -10,12 +10,7 @@
 
       <ul class="right hide-on-small-and-down">
         <li>
-          <a
-            class="dropdown-trigger black-text"
-            href="#"
-            data-target="dropdown"
-            ref="dropdown"
-          >
+          <a class="dropdown-trigger black-text" href="#" data-target="dropdown" ref="dropdown">
             USER NAME
             <i class="material-icons right">arrow_drop_down</i>
           </a>
@@ -47,15 +42,14 @@ export default {
     dropdown: null,
   }),
   methods: {
-    logout() {
-      console.log("logout");
-      this.$router.push("/login?message=logout");
+    async logout() {
+      await this.$store.dispatch('logout');
+      this.$router.push('/login?message=logout');
     },
   },
   mounted() {
     this.interval = setInterval(() => {
-      this.date =
-        new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+      this.date = new Date().toLocaleTimeString() + ' ' + new Date().toLocaleDateString();
     }, 1000);
     this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
       constrainWith: false,
@@ -69,4 +63,3 @@ export default {
   },
 };
 </script>
-

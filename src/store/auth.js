@@ -10,5 +10,8 @@ export default {
         throw err;
       }
     },
+    async logout() {
+      await getAuth().signOut();
+    },
   },
 };
