@@ -56,17 +56,18 @@ export default {
       this.$message(messages[this.$route.query.message]);
     }
   },
+
   methods: {
-    submitHandler() {
+    async submitHandler() {
       this.v$.$validate();
       const formData = {
         email: this.email,
         password: this.password,
       };
-      if (!this.v$.$error) {
-        console.log(formData);
+      try {
+        await this.$store.dispatch('login', formData);
         this.$router.push('/');
-      }
+      } catch (e) {}
     },
   },
 };
